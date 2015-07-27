@@ -1,25 +1,24 @@
-﻿using UnityEngine;
-using UnityEngine.EventSystems;
-using System.Collections;
-
-public class TouchTest : MonoBehaviour, IPointerDownHandler {
-
-	public void OnPointerDown (PointerEventData eventData)
-	{
-		Debug.Log("OnPointerDown" + gameObject.name);
-	}
-	// Use this for initialization
-	void Start () {
+﻿namespace TouchTest
+{
+	using UnityEngine;
+	using UnityEngine.EventSystems;
+	using System.Collections;
 	
-	}
-	
-	// Update is called once per frame
-	void Update () {
+	public class TouchTest : MonoBehaviour, IPointerDownHandler {
 		
-		for(int i = 0; i < Input.touchCount; i++)
+		public void OnPointerDown (PointerEventData eventData)
 		{
-			Touch touch = Input.GetTouch(i);
-			Debug.Log(touch.fingerId + ">" + touch.position);
+			Debug.Log("OnPointerDown" + eventData.position);
+		}
+		
+		// Use this for initialization
+		void Start () {
+		
+		}
+		
+		// Update is called once per frame
+		void Update () {
+		
 		}
 	}
 }
