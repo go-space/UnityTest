@@ -56,12 +56,13 @@
 		void Update () {
 			GameObject go;
 			//Debug.Log(Input.touchCount);
+			List<int> fingerIds = new List<int>();
 			for(int i = 0; i < Input.touchCount; i++)
 			{
 				Touch touch = Input.GetTouch(i);
+				fingerIds.Add(touch.fingerId);
 				//LogInputField.text += touch.fingerId + "\n";
 				Debug.Log(touch.fingerId + ">" + touch.position);
-				
 				if (!pointerList.ContainsKey(touch.fingerId))
 				{
 					Vector2 position = new Vector2(touch.position.x / canvas.transform.localScale.x, touch.position.y / canvas.transform.localScale.y);
@@ -69,12 +70,23 @@
 					go.transform.SetParent(Container.transform, false);
 					pointerList.Add(touch.fingerId, go);
 					/*
-					
 					go.transform.position = new Vector2(
 						go.transform.position.x * scale,
 						go.transform.position.y * scale
 					);
 					*/
+				}
+				go = pointerList[touch.fingerId];
+				go.transform.position = touch.position;
+			}
+			
+			foreach (var fingerId in pointerList.Keys)
+			{
+				if (!fingerIds.Contains(fingerId))
+				{
+					go = pointerList[fingerId];
+					Destroy(go);
+					pointerList.Remove(fingerId);
 				}
 			}
 		}
