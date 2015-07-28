@@ -28,7 +28,7 @@
 		
 		// Use this for initialization
 		void Start () {
-			Debug.Log(Screen.width + "/" + Screen.height);
+			//Debug.Log(Screen.width + "/" + Screen.height);
 			pointerList = new Dictionary<int, GameObject>();
 			LogInputField.text = "Start!";
 			ClearButton.onClick.AddListener(() => {
@@ -57,12 +57,13 @@
 			GameObject go;
 			//Debug.Log(Input.touchCount);
 			List<int> fingerIds = new List<int>();
+			List<int> deleteIds = new List<int>();
 			for(int i = 0; i < Input.touchCount; i++)
 			{
 				Touch touch = Input.GetTouch(i);
 				fingerIds.Add(touch.fingerId);
 				//LogInputField.text += touch.fingerId + "\n";
-				Debug.Log(touch.fingerId + ">" + touch.position);
+				//Debug.Log(touch.fingerId + ">" + touch.position);
 				if (!pointerList.ContainsKey(touch.fingerId))
 				{
 					Vector2 position = new Vector2(touch.position.x / canvas.transform.localScale.x, touch.position.y / canvas.transform.localScale.y);
@@ -79,16 +80,21 @@
 				go = pointerList[touch.fingerId];
 				go.transform.position = touch.position;
 			}
-			
 			foreach (var fingerId in pointerList.Keys)
 			{
 				if (!fingerIds.Contains(fingerId))
 				{
-					go = pointerList[fingerId];
-					Destroy(go);
-					pointerList.Remove(fingerId);
+					deleteIds.Add(fingerId);
+
 				}
 			}
+			foreach (var fingerId in deleteIds)
+			{
+				go = pointerList[fingerId];
+				pointerList.Remove(fingerId);
+				Destroy(go);
+			}
+			
 		}
 	}
 }

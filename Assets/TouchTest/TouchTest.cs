@@ -8,7 +8,7 @@
 		
 		public void OnPointerDown (PointerEventData eventData)
 		{
-			Debug.Log("OnPointerDown" + eventData.position);
+			//Debug.Log("OnPointerDown" + eventData.position);
 		}
 		
 		// Use this for initialization
